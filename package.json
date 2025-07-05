@@ -1,0 +1,34 @@
+{
+  "name": "ava-airport-assistant",
+  "version": "1.0.0",
+  "description": "Professional Airport Assistant Chatbot with Industrial-Level Frontend",
+  "main": "persona-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node persona-server.js",
+    "dev": "nodemon persona-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chatbot",
+    "airport",
+    "assistant",
+    "ai",
+    "frontend",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^4.18.2",
+    "openai": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

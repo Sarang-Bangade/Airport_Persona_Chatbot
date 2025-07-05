@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radha - Airport Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="avatar-section">
+                    <div class="avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="status-indicator online"></div>
+                </div>
+                <div class="agent-info">
+                    <h2 class="agent-name">Radha</h2>
+                    <p class="agent-title">Airport Information Assistant</p>
+                    <div class="status-text">
+                        <span class="status-dot"></span>
+                        Online • Available 24/7
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="action-btn" title="Minimize" id="minimize-btn">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="action-btn close-btn" title="Close" id="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <p>🛫 Welcome to the airport information desk. How may I assist you today?</p>
+                    </div>
+                    <div class="message-time">
+                        <span id="welcome-time"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-action-btn" data-message="What are the check-in procedures?">
+                <i class="fas fa-plane-departure"></i>
+                <span>Check-in</span>
+            </button>
+            <button class="quick-action-btn" data-message="Where is the security checkpoint?">
+                <i class="fas fa-shield-alt"></i>
+                <span>Security</span>
+            </button>
+            <button class="quick-action-btn" data-message="How do I find my gate?">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Gates</span>
+            </button>
+            <button class="quick-action-btn" data-message="What airport services are available?">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Services</span>
+            </button>
+        </div>
+
+        <!-- Input Section -->
+        <div class="chat-input-section">
+            <div class="input-container">
+                <button class="attachment-btn" title="Attach file">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off">
+                <button class="send-btn" id="send-btn" title="Send message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="input-footer">
+                <div class="typing-indicator" id="typing-indicator">
+                    <span>Radha is typing</span>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="powered-by">
+                    Powered by Sarang.AI • Secure & Private
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Connecting to Radha...</p>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
+
