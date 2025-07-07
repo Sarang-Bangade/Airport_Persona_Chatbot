@@ -12,10 +12,10 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// ✅ Middleware for static files in the public folder
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // Serve static files from current directory
+app.use(express.static(path.join(__dirname, 'public'))); // ✅ Serve from public
 
 const openai = new OpenAI({
     apiKey: process.env.API_KEY,
@@ -55,24 +55,22 @@ const messages = [
     { role: "system", content: SYSTEM_PROMPT }
 ];
 
-// Serve the main HTML file
+// ✅ Serve chatbot.html from the public directory
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'chatbot.html'));
+    res.sendFile(path.join(__dirname, 'public', 'chatbot.html'));
 });
 
 // Chat endpoint
 app.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
-        
+
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Add user message to conversation
         messages.push({ role: "user", content: message });
 
-        // Get AI response
         while (true) {
             const response = await openai.chat.completions.create({
                 model: "gemini-2.0-flash",
@@ -85,8 +83,7 @@ app.post('/chat', async (req, res) => {
             messages.push({ role: "assistant", content: aiMsg });
 
             if (parsed.step === "output") {
-                // Return the response to frontend
-                res.json({ 
+                res.json({
                     response: parsed.content,
                     timestamp: new Date().toISOString()
                 });
@@ -95,7 +92,7 @@ app.post('/chat', async (req, res) => {
         }
     } catch (error) {
         console.error('Chat API Error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'I apologize, but I\'m experiencing technical difficulties. Please try again in a moment.',
             timestamp: new Date().toISOString()
         });
@@ -104,27 +101,26 @@ app.post('/chat', async (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
+    res.json({
+        status: 'OK',
         timestamp: new Date().toISOString(),
         service: 'Radha Airport Assistant'
     });
 });
 
-// Get conversation history (optional)
+// Get conversation history
 app.get('/conversation', (req, res) => {
     const conversation = messages.filter(msg => msg.role !== 'system').map(msg => ({
         role: msg.role,
         content: msg.role === 'assistant' ? JSON.parse(msg.content).content : msg.content,
         timestamp: new Date().toISOString()
     }));
-    
+
     res.json({ conversation });
 });
 
-// Clear conversation history (optional)
+// Clear conversation history
 app.delete('/conversation', (req, res) => {
-    // Keep only the system prompt
     messages.length = 1;
     res.json({ message: 'Conversation cleared', timestamp: new Date().toISOString() });
 });
@@ -134,16 +130,14 @@ app.listen(PORT, () => {
     console.log(`🛫 Radha Airport Assistant Server running on http://localhost:${PORT}`);
     console.log(`Open your browser and navigate to http://localhost:${PORT} to use the chat interface`);
     console.log(`\n🔗 Endpoints:`);
-    console.log(`   GET  /           - Chat Interface`);
-    console.log(`   POST /chat       - Send message to Radha`);
-    console.log(`   GET  /health     - Health check`);
-    console.log(`   GET  /conversation - Get chat history`);
+    console.log(`   GET  /              - Chat Interface`);
+    console.log(`   POST /chat          - Send message to Radha`);
+    console.log(`   GET  /health        - Health check`);
+    console.log(`   GET  /conversation  - Get chat history`);
     console.log(`   DELETE /conversation - Clear chat history`);
 });
 
-// Handle graceful shutdown
 process.on('SIGINT', () => {
     console.log('\n👋 Radha Airport Assistant Server shutting down gracefully...');
     process.exit(0);
 });
-
